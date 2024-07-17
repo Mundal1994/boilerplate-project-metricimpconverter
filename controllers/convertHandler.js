@@ -1,12 +1,21 @@
 function ConvertHandler() {
   
   this.getNum = function(input) {
+    console.log("where does it get stuck");
+    if (!input.length) {
+      
+      console.log("return 1");
+    
+      return 1;
+      
+    }
+
     const dotCount = (input.match(/\./g) || []).length;
 
     const regexSlash = new RegExp('/', 'g');
     const slashCount = (input.match(regexSlash) || []).length;
 
-    if (dotCount > 1 || slashCount > 1)
+    if (dotCount > 1 || slashCount > 1 || input[input.length - 1] == '/')
       return 'invalid number';
 
     let result = parseFloat(input);    
@@ -71,20 +80,12 @@ function ConvertHandler() {
         return 'error';
     }
   };
-  /*
-  lbs --> kg multiply
-  kg --> lbs divide
 
-  gal --> L multiply
-  L --> gal divide
-
-  mi --> km multiply
-  km --> mi divide
-  */
   this.convert = function(initNum, initUnit) {
     const galToL = 3.78541;
     const lbsToKg = 0.453592;
     const miToKm = 1.60934;
+    console.log("where does it get stuck==????", initNum, initUnit);
     initNum = this.getNum(initNum);
     initUnit = this.getUnit(initUnit);
     
