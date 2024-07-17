@@ -1,26 +1,27 @@
 function ConvertHandler() {
   
   this.getNum = function(input) {
-    console.log("where does it get stuck");
     if (!input.length) {
-      
-      console.log("return 1");
-    
       return 1;
-      
     }
-
     const dotCount = (input.match(/\./g) || []).length;
 
     const regexSlash = new RegExp('/', 'g');
     const slashCount = (input.match(regexSlash) || []).length;
-
     if (dotCount > 1 || slashCount > 1 || input[input.length - 1] == '/')
       return 'invalid number';
 
-    let result = parseFloat(input);    
+    let result = parseFloat(input);
     if (typeof result == 'string' || result instanceof String)
       return 'invalid number';
+
+    let i = 0;
+    while (i < input.length - 1) {
+      if ((input[i] == '.' && input[i + 1] == '/') || (input[i] == '/' && input[i + 1] == '.')) {
+        return 'invalid number';
+      }
+      ++i;
+    }
     return result;
   };
   
@@ -85,20 +86,17 @@ function ConvertHandler() {
     const galToL = 3.78541;
     const lbsToKg = 0.453592;
     const miToKm = 1.60934;
-    console.log("where does it get stuck==????", initNum, initUnit);
+    
     initNum = this.getNum(initNum);
     initUnit = this.getUnit(initUnit);
     
     if (initNum == 'invalid number' && initUnit == 'invalid unit'){
-      console.log("invalid number and unit");
       return 'invalid number and unit';
     }
     if (initNum == 'invalid number'){
-      console.log("invalid number");
       return initNum;
     }
     if (initUnit == 'invalid unit') {
-      console.log("invalid unit");
       return initUnit;
     }
 
@@ -110,7 +108,6 @@ function ConvertHandler() {
         returnNum = initNum / miToKm;
         break;
       case 'km':
-        console.log("return unit km");
         returnNum = initNum * miToKm;
         break;
       case 'gal':
@@ -126,7 +123,6 @@ function ConvertHandler() {
         returnNum = initNum * lbsToKg;
         break;
       default:
-        console.log("no valid return value");
         return retUnit;
     }
     returnNum = parseFloat(returnNum.toFixed(5));
@@ -139,8 +135,6 @@ function ConvertHandler() {
     const spellOutReturnUnit = this.spellOutUnit(returnUnit);
     
     let result = initNum + ' ' + spellOutInitUnit + ' converts to ' + returnNum + ' ' + spellOutReturnUnit;
-    
-    console.log("result: ", result);
     return result;
   };
   

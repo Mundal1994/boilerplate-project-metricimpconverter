@@ -75,7 +75,7 @@ suite('Unit Tests', function(){
                 retUnit: 'kg',
                 string: '1.7 pounds converts to 0.77111 kilograms'
             }
-            assert.deepEqual(result1, convertHandler.convert('1.7', 'lbs'));
+            assert.deepEqual(result1, convertHandler.convert('1.7', 'lBs'));
 
             let result2 = {
                 initNum: 0.01,
@@ -84,7 +84,7 @@ suite('Unit Tests', function(){
                 retUnit: 'gal',
                 string: '0.01 liters converts to 0.00264 gallons'
             }
-            assert.deepEqual(result2, convertHandler.convert('0.01', 'L'));
+            assert.deepEqual(result2, convertHandler.convert('0.01', 'l'));
         });
     });
     
@@ -109,6 +109,23 @@ suite('Unit Tests', function(){
                 string: '1 gallons converts to 3.78541 liters'
             }
             assert.deepEqual(result2, convertHandler.convert('', 'gal'));
+        });
+    });
+
+    suite('Error handling', function() {
+        // return an error for an invalid unit
+        test('#return an error for an invalid unit', function() {
+            assert.equal('invalid unit', convertHandler.convert('3', 'lbsT'));
+            assert.equal('invalid unit', convertHandler.convert('2', 'Liter'));
+            assert.equal('invalid unit', convertHandler.convert('1', 'KILO'));
+            assert.equal('invalid unit', convertHandler.convert('0', 'hello'));
+        });
+        // return an error for an invalid unit and number
+        test('#return an error for an invalid number and unit', function() {
+            assert.equal('invalid number and unit', convertHandler.convert('3/', 'lbsT'));
+            assert.equal('invalid number and unit', convertHandler.convert('2/.', 'Liter'));
+            assert.equal('invalid number and unit', convertHandler.convert('1..', 'KILO'));
+            assert.equal('invalid number and unit', convertHandler.convert('0/2/3', 'hello'));
         });
         // Return error on a double-fraction
         test('#Return error on a double-fraction or dot-tation', function(){
