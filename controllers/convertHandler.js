@@ -27,14 +27,27 @@ function ConvertHandler() {
       case 'kg':
         return 'lbs';
       default:
-        return 'error';
+        return 'invalid unit';
     }
   };
 
   this.spellOutUnit = function(unit) {
-    let result;
-    
-    return result;
+    switch (unit) {
+      case 'mi':
+        return 'miles';
+      case 'km':
+        return 'kilometers';
+      case 'gal':
+        return 'gallons';
+      case 'L':
+        return 'liters';
+      case 'lbs':
+        return 'pounds';
+      case 'kg':
+        return 'kilograms';
+      default:
+        return 'error';
+    }
   };
   
   this.convert = function(initNum, initUnit) {
@@ -42,7 +55,9 @@ function ConvertHandler() {
     const lbsToKg = 0.453592;
     const miToKm = 1.60934;
 
-    switch(this.getReturnUnit(initUnit)) {
+    const retUnit = this.getReturnUnit(initUnit);
+
+    switch(retUnit) {
       case 'mi':
         // calculation
         break;
@@ -55,18 +70,21 @@ function ConvertHandler() {
       case 'kg':
         break;
       default:
-        break;
+        return retUnit;
     }
-    let result;
     console.log("initNum: ", initNum, " initUnit: ", initUnit);
-
-    
-    return result;
+    let string = this.getString(initNum, initUnit, 500, retUnit);
+    let val = 500;
+    return {initNum, initUnit, val, retUnit, string};
   };
   
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
-    let result;
+    const spellOutInitUnit = this.spellOutUnit(initUnit);
+    const spellOutReturnUnit = this.spellOutUnit(returnUnit);
     
+    let result = initNum + ' ' + spellOutInitUnit + ' converts to ' + returnNum + ' ' + spellOutReturnUnit;
+    
+    console.log("result: ", result);
     return result;
   };
   
