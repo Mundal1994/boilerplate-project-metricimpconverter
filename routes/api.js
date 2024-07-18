@@ -9,7 +9,6 @@ module.exports = function (app) {
   app.route('/api/convert').get((req, res) => {
     const convertHandler = new ConvertHandler();
     const input = req.query.input;
-    console.log("api/convert called with input: ", input)
 
     let initNum;
     let initUnit;
@@ -35,7 +34,6 @@ module.exports = function (app) {
       const returnNum = convertHandler.convert(initNum, initUnit);
       const returnUnit = convertHandler.getReturnUnit(initUnit);
       const string = convertHandler.getString(initNum, initUnit, returnNum, returnUnit);
-      console.log("returnNum: ", returnNum, 'returnUnit',returnUnit, 'string:',string);
       
       let result = ({
         'initNum': initNum, 
