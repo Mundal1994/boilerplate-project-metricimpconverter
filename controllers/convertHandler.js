@@ -78,7 +78,7 @@ function ConvertHandler() {
       case 'kg':
         return 'kilograms';
       default:
-        return 'error';
+        return 'invalid';
     }
   };
 
@@ -91,13 +91,13 @@ function ConvertHandler() {
     initUnit = this.getUnit(initUnit);
     
     if (initNum == 'invalid number' && initUnit == 'invalid unit'){
-      return 'invalid number and unit';
+      return {'string': 'invalid number and unit'};
     }
     if (initNum == 'invalid number'){
-      return initNum;
+      return {'string': initNum};
     }
     if (initUnit == 'invalid unit') {
-      return initUnit;
+      return {'string': initUnit};
     }
 
     const retUnit = this.getReturnUnit(initUnit);
@@ -123,11 +123,11 @@ function ConvertHandler() {
         returnNum = initNum * lbsToKg;
         break;
       default:
-        return retUnit;
+        return {'string': retUnit};
     }
     returnNum = parseFloat(returnNum.toFixed(5));
     let string = this.getString(initNum, initUnit, returnNum, retUnit);
-    return {initNum, initUnit, returnNum, retUnit, string};
+    return {'initNum': initNum, 'initUnit': initUnit, 'returnNum': returnNum, 'returnUnit': retUnit, 'string': string};
   };
   
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {

@@ -12,7 +12,7 @@ suite('Unit Tests', function(){
                 initNum: 4,
                 initUnit: 'gal',
                 returnNum: 15.14164,
-                retUnit: 'L',
+                returnUnit: 'L',
                 string: '4 gallons converts to 15.14164 liters'
             }
             assert.deepEqual(result1, convertHandler.convert('4', 'gal'));
@@ -21,7 +21,7 @@ suite('Unit Tests', function(){
                 initNum: 6,
                 initUnit: 'mi',
                 returnNum: 9.65604,
-                retUnit: 'km',
+                returnUnit: 'km',
                 string: '6 miles converts to 9.65604 kilometers'
             }
             assert.deepEqual(result2, convertHandler.convert('6', 'mi'));
@@ -32,7 +32,7 @@ suite('Unit Tests', function(){
                 initNum: 3.1,
                 initUnit: 'mi',
                 returnNum: 4.98895,
-                retUnit: 'km',
+                returnUnit: 'km',
                 string: '3.1 miles converts to 4.98895 kilometers'
             }
             assert.deepEqual(result1, convertHandler.convert('3.1', 'mi'));
@@ -41,7 +41,7 @@ suite('Unit Tests', function(){
                 initNum: 6.43736,
                 initUnit: 'km',
                 returnNum: 4,
-                retUnit: 'mi',
+                returnUnit: 'mi',
                 string: '6.43736 kilometers converts to 4 miles'
             }
             assert.deepEqual(result2, convertHandler.convert('6.43736', 'km'));
@@ -52,7 +52,7 @@ suite('Unit Tests', function(){
                 initNum: 0.5,
                 initUnit: 'km',
                 returnNum: 0.31069,
-                retUnit: 'mi',
+                returnUnit: 'mi',
                 string: '0.5 kilometers converts to 0.31069 miles'
             }
             assert.deepEqual(result1, convertHandler.convert('0.5', 'km'));
@@ -61,7 +61,7 @@ suite('Unit Tests', function(){
                 initNum: 0.2,
                 initUnit: 'kg',
                 returnNum: 0.44092,
-                retUnit: 'lbs',
+                returnUnit: 'lbs',
                 string: '0.2 kilograms converts to 0.44092 pounds'
             }
             assert.deepEqual(result2, convertHandler.convert('0.2', 'kg'));
@@ -72,7 +72,7 @@ suite('Unit Tests', function(){
                 initNum: 1.7,
                 initUnit: 'lbs',
                 returnNum: 0.77111,
-                retUnit: 'kg',
+                returnUnit: 'kg',
                 string: '1.7 pounds converts to 0.77111 kilograms'
             }
             assert.deepEqual(result1, convertHandler.convert('1.7', 'lBs'));
@@ -81,7 +81,7 @@ suite('Unit Tests', function(){
                 initNum: 0.01,
                 initUnit: 'L',
                 returnNum: 0.00264,
-                retUnit: 'gal',
+                returnUnit: 'gal',
                 string: '0.01 liters converts to 0.00264 gallons'
             }
             assert.deepEqual(result2, convertHandler.convert('0.01', 'l'));
@@ -95,7 +95,7 @@ suite('Unit Tests', function(){
                 initNum: 1,
                 initUnit: 'kg',
                 returnNum: 2.20462,
-                retUnit: 'lbs',
+                returnUnit: 'lbs',
                 string: '1 kilograms converts to 2.20462 pounds'
             }
             assert.deepEqual(result1, convertHandler.convert('', 'kg'));
@@ -104,7 +104,7 @@ suite('Unit Tests', function(){
                 initNum: 1,
                 initUnit: 'gal',
                 returnNum: 3.78541,
-                retUnit: 'L',
+                returnUnit: 'L',
                 string: '1 gallons converts to 3.78541 liters'
             }
             assert.deepEqual(result2, convertHandler.convert('', 'gal'));
@@ -114,25 +114,28 @@ suite('Unit Tests', function(){
     suite('Error handling', function() {
         // return an error for an invalid unit
         test('#return an error for an invalid unit', function() {
-            assert.equal('invalid unit', convertHandler.convert('3', 'lbsT'));
-            assert.equal('invalid unit', convertHandler.convert('2', 'Liter'));
-            assert.equal('invalid unit', convertHandler.convert('1', 'KILO'));
-            assert.equal('invalid unit', convertHandler.convert('0', 'hello'));
+            const result1 = {'string': 'invalid unit'};
+            assert.deepEqual(result1, convertHandler.convert('3', 'lbsT'));
+            assert.deepEqual(result1, convertHandler.convert('2', 'Liter'));
+            assert.deepEqual(result1, convertHandler.convert('1', 'KILO'));
+            assert.deepEqual(result1, convertHandler.convert('0', 'hello'));
         });
         // return an error for an invalid unit and number
         test('#return an error for an invalid number and unit', function() {
-            assert.equal('invalid number and unit', convertHandler.convert('3/', 'lbsT'));
-            assert.equal('invalid number and unit', convertHandler.convert('2/.', 'Liter'));
-            assert.equal('invalid number and unit', convertHandler.convert('1..', 'KILO'));
-            assert.equal('invalid number and unit', convertHandler.convert('0/2/3', 'hello'));
+            const result1 = {'string': 'invalid number and unit'};
+            assert.deepEqual(result1, convertHandler.convert('3/', 'lbsT'));
+            assert.deepEqual(result1, convertHandler.convert('2/.', 'Liter'));
+            assert.deepEqual(result1, convertHandler.convert('1..', 'KILO'));
+            assert.deepEqual(result1, convertHandler.convert('0/2/3', 'hello'));
         });
         // Return error on a double-fraction
         test('#Return error on a double-fraction or dot-tation', function(){
-            assert.equal('invalid number', convertHandler.convert('3/2/3', 'lbs'));
-            assert.equal('invalid number', convertHandler.convert('3/2//3', 'lbs'));
-            assert.equal('invalid number', convertHandler.convert('3.5//', 'kg'));
-            //assert.equal('invalid number', convertHandler.convert('3.5/', 'mi'));
-            //assert.equal('invalid number', convertHandler.convert('3.5.', 'gal'));
+            const result1 = {'string': 'invalid number'};
+            assert.deepEqual(result1, convertHandler.convert('3/2/3', 'lbs'));
+            assert.deepEqual(result1, convertHandler.convert('3/2//3', 'lbs'));
+            assert.deepEqual(result1, convertHandler.convert('3.5//', 'kg'));
+            //assert.deepEqual(result1, convertHandler.convert('3.5/', 'mi'));
+            //assert.deepEqual(result1, convertHandler.convert('3.5.', 'gal'));
         });
     }); 
 });
