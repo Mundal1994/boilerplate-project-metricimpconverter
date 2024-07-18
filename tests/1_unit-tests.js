@@ -123,10 +123,10 @@ suite('Unit Tests', function(){
         // return an error for an invalid unit and number
         test('#return an error for an invalid number and unit', function() {
             const result1 = {'string': 'invalid number and unit'};
-            assert.deepEqual(result1, convertHandler.convert('3/', 'lbsT'));
-            assert.deepEqual(result1, convertHandler.convert('2/.', 'Liter'));
-            assert.deepEqual(result1, convertHandler.convert('1..', 'KILO'));
-            assert.deepEqual(result1, convertHandler.convert('0/2/3', 'hello'));
+            assert.deepEqual(result1, convertHandler.convert('3/', 'lbss'));
+            assert.deepEqual(result1, convertHandler.convert('2/.', 'Li'));
+            assert.deepEqual(result1, convertHandler.convert('1..', 'kgs'));
+            assert.deepEqual(result1, convertHandler.convert('0/2/3', 'gals'));
         });
         // Return error on a double-fraction
         test('#Return error on a double-fraction or dot-tation', function(){

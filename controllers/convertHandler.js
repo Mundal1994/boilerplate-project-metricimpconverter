@@ -4,6 +4,16 @@ function ConvertHandler() {
     if (!input.length) {
       return 1;
     }
+
+    let i = 0;
+    while (i < input.length) {
+      if ((input[i] == '.' && input[i + 1] == '/') || (input[i] == '/' && input[i + 1] == '.')) {
+        return 'invalid number';
+      }
+      ++i;
+    }
+
+    // check if what we found is valid
     const dotCount = (input.match(/\./g) || []).length;
 
     const regexSlash = new RegExp('/', 'g');
@@ -15,13 +25,6 @@ function ConvertHandler() {
     if (typeof result == 'string' || result instanceof String)
       return 'invalid number';
 
-    let i = 0;
-    while (i < input.length - 1) {
-      if ((input[i] == '.' && input[i + 1] == '/') || (input[i] == '/' && input[i + 1] == '.')) {
-        return 'invalid number';
-      }
-      ++i;
-    }
     return result;
   };
   
@@ -86,7 +89,7 @@ function ConvertHandler() {
     const galToL = 3.78541;
     const lbsToKg = 0.453592;
     const miToKm = 1.60934;
-    
+
     initNum = this.getNum(initNum);
     initUnit = this.getUnit(initUnit);
     
