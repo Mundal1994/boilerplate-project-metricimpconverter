@@ -1,35 +1,51 @@
 function ConvertHandler() {
   
   this.getNum = function(input) {
-    if (!input.length) {
-      return 1;
-    }
-
+    const numError = 'invalid number'
     let i = 0;
+    const str = '0123456789./';
     while (i < input.length) {
-      if ((input[i] == '.' && input[i + 1] == '/') || (input[i] == '/' && input[i + 1] == '.')) {
-        return 'invalid number';
+      if (!str.includes(input[i])) {
+        break;
       }
+      if ((input[i] == '.' && input[i + 1] == '/') || (input[i] == '/' && input[i + 1] == '.')) throw new Error(numError);
       ++i;
     }
+    
+    if (!i) {
+      return 1;
+    }
+    const initNum = input.substr(0, i);
+    console.log("initNum", initNum);
 
     // check if what we found is valid
-    const dotCount = (input.match(/\./g) || []).length;
-
+    const dotCount = (initNum.match(/\./g) || []).length;
+    
     const regexSlash = new RegExp('/', 'g');
-    const slashCount = (input.match(regexSlash) || []).length;
-    if (dotCount > 1 || slashCount > 1 || input[input.length - 1] == '/')
-      return 'invalid number';
+    const slashCount = (initNum.match(regexSlash) || []).length;
+    
+    if (dotCount > 1 || slashCount > 1 || initNum[initNum.length - 1] == '/') throw new Error(numError);
 
-    let result = parseFloat(input);
-    if (typeof result == 'string' || result instanceof String)
-      return 'invalid number';
-
+    console.log("result initNum before", initNum);
+    const result = parseFloat(initNum);
+    console.log("result", result);
+    if (typeof result == 'string' || result instanceof String) throw new Error(numError);
+    
     return result;
   };
   
   this.getUnit = function(input) {
-    switch (input.toLowerCase()) {
+    let i = 0;
+    const str = '0123456789./';
+    while (i < input.length) {
+      if (!str.includes(input[i])) {
+        break;
+      }
+      ++i;
+    }
+    const initUnit = input.substr(i);
+
+    switch (initUnit.toLowerCase()) {
       case 'mi':
         return 'mi';
       case 'km':
@@ -43,7 +59,7 @@ function ConvertHandler() {
       case 'kg':
         return 'kg';
       default:
-        return 'invalid unit';
+        throw new Error('invalid unit');
     }
   };
   
@@ -90,47 +106,31 @@ function ConvertHandler() {
     const lbsToKg = 0.453592;
     const miToKm = 1.60934;
 
-    initNum = this.getNum(initNum);
-    initUnit = this.getUnit(initUnit);
-    
-    if (initNum == 'invalid number' && initUnit == 'invalid unit'){
-      return {'string': 'invalid number and unit'};
-    }
-    if (initNum == 'invalid number'){
-      return {'string': initNum};
-    }
-    if (initUnit == 'invalid unit') {
-      return {'string': initUnit};
-    }
-
-    const retUnit = this.getReturnUnit(initUnit);
-    
     let returnNum = 1;
-    switch(retUnit) {
+    switch(initUnit) {
       case 'mi':
-        returnNum = initNum / miToKm;
-        break;
-      case 'km':
         returnNum = initNum * miToKm;
         break;
-      case 'gal':
-        returnNum = initNum / galToL;
+      case 'km':
+        returnNum = initNum / miToKm;
         break;
-      case 'L':
+      case 'gal':
         returnNum = initNum * galToL;
         break;
-      case 'lbs':
-        returnNum = initNum / lbsToKg;
+      case 'L':
+        returnNum = initNum / galToL;
         break;
-      case 'kg':
+      case 'lbs':
         returnNum = initNum * lbsToKg;
         break;
+      case 'kg':
+        returnNum = initNum / lbsToKg;
+        break;
       default:
-        return {'string': retUnit};
+        return 'invalid';
     }
     returnNum = parseFloat(returnNum.toFixed(5));
-    let string = this.getString(initNum, initUnit, returnNum, retUnit);
-    return {'initNum': initNum, 'initUnit': initUnit, 'returnNum': returnNum, 'returnUnit': retUnit, 'string': string};
+    return returnNum;
   };
   
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
@@ -138,6 +138,7 @@ function ConvertHandler() {
     const spellOutReturnUnit = this.spellOutUnit(returnUnit);
     
     let result = initNum + ' ' + spellOutInitUnit + ' converts to ' + returnNum + ' ' + spellOutReturnUnit;
+    console.log(result);
     return result;
   };
   
