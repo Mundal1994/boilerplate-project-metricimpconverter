@@ -8,15 +8,14 @@ function ConvertHandler() {
       if (!str.includes(input[i])) {
         break;
       }
-      if ((input[i] == '.' && input[i + 1] == '/') || (input[i] == '/' && input[i + 1] == '.')) throw new Error(numError);
+      if ((input[i] == '.' && input[i + 1] == '/') || (input[i] == '/' && input[i + 1] == '.')) { throw numError };
       ++i;
     }
     
     if (!i) {
       return 1;
     }
-    const initNum = input.substr(0, i);
-    console.log("initNum", initNum);
+    let initNum = input.substr(0, i);
 
     // check if what we found is valid
     const dotCount = (initNum.match(/\./g) || []).length;
@@ -24,13 +23,21 @@ function ConvertHandler() {
     const regexSlash = new RegExp('/', 'g');
     const slashCount = (initNum.match(regexSlash) || []).length;
     
-    if (dotCount > 1 || slashCount > 1 || initNum[initNum.length - 1] == '/') throw new Error(numError);
+    if (dotCount > 1 || slashCount > 1 || initNum[initNum.length - 1] == '/') { throw numError };
 
-    console.log("result initNum before", initNum);
-    const result = parseFloat(initNum);
-    console.log("result", result);
-    if (typeof result == 'string' || result instanceof String) throw new Error(numError);
-    
+    let result = parseFloat(initNum);
+    if (slashCount > 0) {
+      let indx = initNum.indexOf('/');
+      const a = parseFloat(initNum.substr(0, indx));
+      const b = parseFloat(initNum.substr(indx + 1));
+      
+      if (typeof a == 'string' || a instanceof String) { throw numError };
+      if (typeof b == 'string' || b instanceof String) { throw numError };
+      
+      result = a / b;
+    } else {
+      if (typeof result == 'string' || result instanceof String) { throw numError };
+    }
     return result;
   };
   
@@ -43,7 +50,7 @@ function ConvertHandler() {
       }
       ++i;
     }
-    const initUnit = input.substr(i);
+    let initUnit = input.substr(i);
 
     switch (initUnit.toLowerCase()) {
       case 'mi':
@@ -59,7 +66,7 @@ function ConvertHandler() {
       case 'kg':
         return 'kg';
       default:
-        throw new Error('invalid unit');
+        throw 'invalid unit';
     }
   };
   
@@ -138,7 +145,6 @@ function ConvertHandler() {
     const spellOutReturnUnit = this.spellOutUnit(returnUnit);
     
     let result = initNum + ' ' + spellOutInitUnit + ' converts to ' + returnNum + ' ' + spellOutReturnUnit;
-    console.log(result);
     return result;
   };
   
