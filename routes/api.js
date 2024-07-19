@@ -41,8 +41,10 @@ module.exports = function (app) {
         'returnNum': returnNum, 
         'returnUnit': returnUnit, 
         'string': string});
+      res.setHeader("Access-Control-Allow-Origin", "*");
       res.json(result);
     } else {
+      res.setHeader("Access-Control-Allow-Origin", "*");
       res.json(error);
     }
   });

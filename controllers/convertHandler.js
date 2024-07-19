@@ -38,7 +38,7 @@ function ConvertHandler() {
     } else {
       if (typeof result == 'string' || result instanceof String) { throw numError };
     }
-    return result;
+    return parseFloat(result.toFixed(5));
   };
   
   this.getUnit = function(input) {
