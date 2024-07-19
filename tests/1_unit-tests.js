@@ -8,19 +8,27 @@ suite('Unit Tests', function(){
     suite('Basic values', function() {
         // whole number
         //#1
-        test('#whole number 4gal', function(){
-            let result1 = {
-                initNum: 4,
-                initUnit: 'gal',
-                returnNum: 15.14164,
-                returnUnit: 'L',
-                string: '4 gallons converts to 15.14164 liters'
-            }
-            assert.strictEqual(result1['initNum'], convertHandler.getNum('4gal'));
-            assert.strictEqual(result1['initUnit'], convertHandler.getUnit('4gal'));
-            assert.strictEqual(result1['returnNum'], convertHandler.convert(4, 'gal'));
-            assert.strictEqual(result1['returnUnit'], convertHandler.getReturnUnit('gal'));
-            assert.strictEqual(result1['string'], convertHandler.getString(4, 'gal', result1['returnNum'], result1['returnUnit']));
+        let result = {
+            initNum: 4,
+            initUnit: 'gal',
+            returnNum: 15.14164,
+            returnUnit: 'L',
+            string: '4 gallons converts to 15.14164 liters'
+        }
+        test('#whole number 4gal getNum', function(){
+            assert.strictEqual(result['initNum'], convertHandler.getNum('4gal'));
+        });
+        test('#whole number 4gal getUnit', function(){
+            assert.strictEqual(result['initUnit'], convertHandler.getUnit('4gal'));
+        });
+        test('#whole number 4gal convert', function(){
+            assert.strictEqual(result['returnNum'], convertHandler.convert(4, 'gal'));
+        });
+        test('#whole number 4gal getReturnUnit', function(){
+            assert.strictEqual(result['returnUnit'], convertHandler.getReturnUnit('gal'));
+        });
+        test('#whole number 4gal getString', function(){
+            assert.strictEqual(result['string'], convertHandler.getString(4, 'gal', result['returnNum'], result['returnUnit']));
         });
         //#2
         test('#whole number 6mi', function() {
